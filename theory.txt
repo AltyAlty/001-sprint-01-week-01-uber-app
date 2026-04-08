@@ -100,3 +100,14 @@ Data Transfer Object - это объект, определяющий форму 
 Папка "db" - моковые данные.
 Папка "drivers" - код, связанный с водителями. Здесь хранится DTO для валидации данных и типы, описывающие водителей.
 Папка "testing" - код, связанные с тестированием приложения.
+
+Разворачивание приложения на vercel.com:
+1. Создать файл "vercel.json".
+2. Залогиниться на vercel.com
+3. Перейти на Dashboard
+4. Выбрать "Add New..." - "Project"
+5. Выбрать "Continue with GitHub"
+6. Импортировать нужный репозиторий
+7. Указать "Build Command" как "yarn vercel-build"
+8. Указать "Output Directory" как "dist"
+9. Указать "Install Command" как "yarn install"

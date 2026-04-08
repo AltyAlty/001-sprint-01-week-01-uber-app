@@ -1,18 +1,11 @@
 {
   "version": 2,
   "name": "001-sprint-01-week-01-uber-app",
-  "builds": [
-    {
-      "src": "src/index.ts",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": [
-          "dist/core/swagger/openapi.swagger.yml",
-          "dist/drivers/docs/drivers.swagger.yml",
-          "dist/testing/core/testing.swagger.yml"
-        ]
-      }
+  "functions": {
+    "src/index.ts": {
+      "includeFiles": "{dist/core/swagger/openapi.swagger.yml,dist/drivers/docs/drivers.swagger.yml,dist/testing/core/testing.swagger.yml}"
     }
-  ],
+  },
+  "builds": [{ "src": "src/index.ts", "use": "@vercel/node" }],
   "routes": [{ "src": "/(.*)", "dest": "src/index.ts" }]
 }

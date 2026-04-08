@@ -118,22 +118,4 @@ Data Transfer Object - это объект, определяющий форму 
 9. Указать "Output Directory" как "dist".
 10. Указать "Install Command" как "pnpm install".
 
-
 pnpm add -D swagger-ui-dist
-
-
-"prebuild": "pnpm run copy-swagger",
-"copy-swagger": "shx mkdir -p public/swagger-ui && shx cp -r node_modules/.pnpm/swagger-ui-dist@*/node_modules/swagger-ui-dist/* public/swagger-ui/",
-"build": "tsc && pnpm run copy-swagger",
-
-{ "src": "/swagger-ui/(.*)", "dest": "/public/swagger-ui/$1" },
-    { "src": "/swagger.json", "dest": "src/index.ts" },
-
-
-
-{
-      swaggerOptions: { url: '/swagger.json' },
-      // чтобы UI брал статику из /swagger-ui/*
-      customCssUrl: '/swagger-ui/swagger-ui.css',
-      customJs: '/swagger-ui/swagger-ui-bundle.js',
-    }

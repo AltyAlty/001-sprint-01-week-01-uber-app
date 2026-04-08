@@ -22,15 +22,25 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 /*Создаем функцию "setupSwagger()" для инициализации документации Swagger.*/
+// export const setupSwagger = (app: Express) => {
+//   app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// };
+
 export const setupSwagger = (app: Express) => {
+  // 1. отдаём саму спеку
+  app.get('/swagger.json', (_req, res) => res.json(swaggerSpec));
+
+  // 2. UI, который тянет assets с unpkg
   app.use(
     '/api',
     swaggerUi.serve,
     swaggerUi.setup(swaggerSpec, {
       swaggerOptions: { url: '/swagger.json' },
-      // чтобы UI брал статику из /swagger-ui/*
-      customCssUrl: '/swagger-ui/swagger-ui.css',
-      customJs: '/swagger-ui/swagger-ui-bundle.js',
+      customCssUrl: 'https://unpkg.com/swagger-ui-dist@latest/swagger-ui.css',
+      customJs: [
+        'https://unpkg.com/swagger-ui-dist@latest/swagger-ui-bundle.js',
+        'https://unpkg.com/swagger-ui-dist@latest/swagger-ui-standalone-preset.js',
+      ],
     }),
   );
 };

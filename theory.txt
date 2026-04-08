@@ -16,7 +16,7 @@ pnpm add -D typescript @types/express jest ts-jest @types/jest @types/node super
 4. pnpm format: форматирование кода с помощью Prettier.
 5. pnpm lint: запуск проверки кода с помощью ESLint и автоматического их исправления.
 6. pnpm build: компиляция файлов TypeScript из папки "src" в папку "dist", нужно для деплоя на vercel.com.
-7. pnpm start: "node dist/index.js".
+7. pnpm start: запуск приложения, нужно для деплоя на vercel.com.
 
 Файл "package.json": настройка полей "main" и "scripts".
 Файл "tsconfig.json": ручная настройка.
@@ -107,7 +107,7 @@ Data Transfer Object - это объект, определяющий форму 
 Деплой приложения на vercel.com:
 1. Создать файл "vercel.json".
 2. В файл "package.json" добавить скрипты:
-2.1 "build": "tsc".
+2.1 "build": "tsc && cp -r src/**/*.swagger.yml dist/ || true".
 2.2 "start": "node dist/index.js".
 3. Залогиниться на vercel.com.
 4. Выбрать "Add New..." - "Project".

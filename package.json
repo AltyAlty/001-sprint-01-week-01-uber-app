@@ -9,8 +9,7 @@
     "jest": "jest -i",
     "lint": "eslint --fix .",
     "format": "prettier --write .",
-    "build": "tsc && npm run copy:yml",
-    "copy:yml": "cp -r src/**/*.yml dist/ 2>/dev/null || xcopy /s /y src\\*.yml dist\\ 2>nul",
+    "build": "tsc && copyfiles -u 1 \"**/*.yml\" dist/",
     "start": "node dist/index.js"
   },
   "keywords": [],
@@ -31,6 +30,7 @@
     "@types/swagger-ui-express": "^4.1.8",
     "@typescript-eslint/eslint-plugin": "^8.58.0",
     "@typescript-eslint/parser": "^8.58.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^10.2.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",

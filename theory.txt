@@ -107,7 +107,7 @@ Data Transfer Object - это объект, определяющий форму 
 Деплой приложения на vercel.com:
 1. Создать файл "vercel.json".
 2. В файл "package.json" добавить скрипты:
-2.1 "build": "tsc && cp -r src/**/*.swagger.yml dist/ || true".
+2.1 "build": "tsc".
 2.2 "start": "node dist/index.js".
 3. Залогиниться на vercel.com.
 4. Выбрать "Add New..." - "Project".

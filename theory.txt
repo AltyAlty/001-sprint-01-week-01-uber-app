@@ -118,4 +118,4 @@ Data Transfer Object - это объект, определяющий форму 
 9. Указать "Output Directory" как "dist".
 10. Указать "Install Command" как "pnpm install".
 
-pnpm add -D swagger-ui-dist
+pnpm add -D copyfiles

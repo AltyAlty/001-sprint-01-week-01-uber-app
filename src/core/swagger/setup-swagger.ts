@@ -21,7 +21,17 @@ const swaggerOptions = {
 /*Генерируем документацию API в формате Swagger.*/
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
+const CSS_URL =
+  'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css';
+
 /*Создаем функцию "setupSwagger()" для инициализации документации Swagger.*/
 export const setupSwagger = (app: Express) => {
-  app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.use(
+    '/api',
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpec, {
+      customCssUrl: CSS_URL,
+      customJs: ['https://cloudflare.com', 'https://cloudflare.com'],
+    }),
+  );
 };

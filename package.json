@@ -9,7 +9,7 @@
     "jest": "jest -i",
     "lint": "eslint --fix .",
     "format": "prettier --write .",
-    "build": "tsc && find src -name '*.swagger.yml' -exec cp --parents {} dist \\\\;",
+    "build": "tsc && find src -name '*.swagger.yml' -exec cp --parents {} dist \\; && ls -R dist",
     "start": "node dist/index.js"
   },
   "keywords": [],

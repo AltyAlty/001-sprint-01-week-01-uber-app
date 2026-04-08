@@ -1,6 +1,7 @@
 import { ValidationError } from '../../drivers/types/validationError';
 
-/*Функция для формирования объекта, содержащего массив с сообщениями об ошибках валидации.*/
+/*Создаем функцию "createErrorMessages()" для формирования объектов, содержащих массивы с сообщениями об ошибках
+валидации.*/
 export const createErrorMessages = (
   errors: ValidationError[],
 ): { errorMessages: ValidationError[] } => {

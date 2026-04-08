@@ -11,9 +11,4 @@ testingRouter
   .delete('/all-data', (req: Request, res: Response) => {
     db.drivers = [];
     res.sendStatus(HttpStatus.NoContent);
-  })
-
-  /*GET-запрос для получения тестового сообщения.*/
-  .get('/testing', (req: Request, res: Response) => {
-    res.status(HttpStatus.Ok).send('testing url');
   });

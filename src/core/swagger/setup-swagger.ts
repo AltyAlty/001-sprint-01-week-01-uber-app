@@ -29,9 +29,6 @@ export const setupSwagger = (app: Express) => {
   app.use(
     '/api',
     swaggerUi.serve,
-    swaggerUi.setup(swaggerSpec, {
-      customCssUrl: CSS_URL,
-      customJs: ['https://cloudflare.com', 'https://cloudflare.com'],
-    }),
+    swaggerUi.setup(swaggerSpec, { customCssUrl: CSS_URL }),
   );
 };

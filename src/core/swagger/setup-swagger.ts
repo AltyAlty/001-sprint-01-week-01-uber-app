@@ -15,7 +15,7 @@ const swaggerOptions = {
   },
 
   /*Указываем откуда брать документацию для Swagger. В данном случае все файлы .yml в папке "src".*/
-  apis: ['./**/*.swagger.yml'],
+  apis: ['./src/**/*.swagger.yml'],
 };
 
 /*Генерируем документацию API в формате Swagger.*/
@@ -28,7 +28,7 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 export const setupSwagger = (app: Express) => {
   // 1. отдаём саму спеку
-  app.get('/swagger.json', (_req, res) => res.json(swaggerSpec));
+  app.get('/api', (_req, res) => res.json(swaggerSpec));
 
   // 2. UI, который тянет assets с unpkg
   app.use(

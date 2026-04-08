@@ -22,25 +22,24 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 /*Создаем функцию "setupSwagger()" для инициализации документации Swagger.*/
-// export const setupSwagger = (app: Express) => {
-//   app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-// };
-
 export const setupSwagger = (app: Express) => {
-  // 1. отдаём саму спеку
-  app.get('/api', (_req, res) => res.json(swaggerSpec));
-
-  // 2. UI, который тянет assets с unpkg
-  app.use(
-    '/api',
-    swaggerUi.serve,
-    swaggerUi.setup(swaggerSpec, {
-      swaggerOptions: { url: '/swagger.json' },
-      customCssUrl: 'https://unpkg.com/swagger-ui-dist@latest/swagger-ui.css',
-      customJs: [
-        'https://unpkg.com/swagger-ui-dist@latest/swagger-ui-bundle.js',
-        'https://unpkg.com/swagger-ui-dist@latest/swagger-ui-standalone-preset.js',
-      ],
-    }),
-  );
+  app.use('/api', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 };
+
+/*Версия, чтобы отображался UI от Swagger, файлы .yaml все равно будут проигнорированы.*/
+// export const setupSwagger = (app: Express) => {
+//   app.get('/swagger.json', (_req, res) => res.json(swaggerSpec));
+//
+//   app.use(
+//     '/api',
+//     swaggerUi.serve,
+//     swaggerUi.setup(swaggerSpec, {
+//       swaggerOptions: { url: '/swagger.json' },
+//       customCssUrl: 'https://unpkg.com/swagger-ui-dist@latest/swagger-ui.css',
+//       customJs: [
+//         'https://unpkg.com/swagger-ui-dist@latest/swagger-ui-bundle.js',
+//         'https://unpkg.com/swagger-ui-dist@latest/swagger-ui-standalone-preset.js',
+//       ],
+//     }),
+//   );
+// };

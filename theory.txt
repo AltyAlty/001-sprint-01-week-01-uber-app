@@ -117,5 +117,3 @@ Data Transfer Object - это объект, определяющий форму 
 8. Указать "Build Command" как "pnpm build".
 9. Указать "Output Directory" как "dist".
 10. Указать "Install Command" как "pnpm install".
-
-pnpm add -D copyfiles

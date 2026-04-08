@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2016",
     "module": "commonjs",
-    // "rootDir": "./src",
+    "rootDir": "./src",
     "outDir": "./dist",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -11,6 +11,6 @@
     "skipLibCheck": true,
     "types": ["jest", "node", "express"]
   },
-  "include": ["src/**/*", "__tests__/**/*"]
+  "include": ["src/**/*"]
   // "exclude": ["__tests__", "dist", "node_modules"]
 }

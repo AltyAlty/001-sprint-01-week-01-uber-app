@@ -15,7 +15,7 @@ const swaggerOptions = {
   },
 
   /*Указываем откуда брать документацию для Swagger. В данном случае все файлы .yml в папке "src".*/
-  apis: [process.cwd() + './src/**/*.swagger.yml'],
+  apis: ['./src/**/*.swagger.yml'],
 };
 
 /*Генерируем документацию API в формате Swagger.*/

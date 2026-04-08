@@ -6,6 +6,6 @@
       "includeFiles": "{dist/core/swagger/openapi.swagger.yml,dist/drivers/docs/drivers.swagger.yml,dist/testing/core/testing.swagger.yml}"
     }
   },
-  "builds": [{ "src": "src/index.ts", "use": "@vercel/node" }],
+
   "routes": [{ "src": "/(.*)", "dest": "src/index.ts" }]
 }

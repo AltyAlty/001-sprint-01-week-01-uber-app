@@ -2,6 +2,5 @@
   "version": 2,
   "name": "001-sprint-01-week-01-uber-app",
   "builds": [{ "src": "src/index.ts", "use": "@vercel/node" }],
-  "routes": [{ "src": "/(.*)", "dest": "src/index.ts" }],
-  "includeFiles": ["src/**/*.yml", "src/**/*.yaml"]
+  "routes": [{ "src": "/(.*)", "dest": "src/index.ts" }]
 }

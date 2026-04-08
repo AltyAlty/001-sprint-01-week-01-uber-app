@@ -117,3 +117,14 @@ Data Transfer Object - это объект, определяющий форму 
 8. Указать "Build Command" как "pnpm build".
 9. Указать "Output Directory" как "dist".
 10. Указать "Install Command" как "pnpm install".
+
+Чтобы Swagger корректно отображался и работал на vercel.com:
+1. Использовать файл "setup-swagger.ts" вместо файла "setup-swagger-original.ts".
+2. В файле "vercel.json" добавить, чтобы не игнорировались файлы .yml:
+"builds": [
+    {
+      "config": {
+        "includeFiles": ["src/**/*.swagger.yml"]
+      }
+    }
+  ]

@@ -4,18 +4,13 @@
   "builds": [
     {
       "src": "src/index.ts",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["node_modules/swagger-ui-dist/**"]
+      }
     }
   ],
   "routes": [
-    {
-      "src": "/api/swagger-ui\\.(.*)",
-      "dest": "/api/swagger-ui.$1"
-    },
-    {
-      "src": "/api/swagger-ui-init\\.js",
-      "dest": "/api/swagger-ui-init.js"
-    },
     {
       "src": "/(.*)",
       "dest": "src/index.ts"

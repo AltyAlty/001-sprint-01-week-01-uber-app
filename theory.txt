@@ -1,6 +1,7 @@
 Урок: https://github.com/it-incubator/ed-back-sprint-1-lesson-1
 
 Инициализация проекта: pnpm init
+Установка всех зависимостей: pnpm install
 Установка Express: pnpm add express
 Установка TypeScript, Jest, TS-Jest, Supertest, ESLint, Prettier, eslint-config-prettier, eslint-plugin-prettier, nodemon:
 pnpm add -D typescript @types/express jest ts-jest @types/jest @types/node supertest @types/supertest eslint @typescript-eslint/eslint-plugin @typescript-eslint/parser prettier eslint-config-prettier eslint-plugin-prettier nodemon
@@ -8,12 +9,14 @@ pnpm add -D typescript @types/express jest ts-jest @types/jest @types/node super
 Установка swagger-jsdoc и swagger-ui-express: pnpm add swagger-jsdoc swagger-ui-express
 Установка типов для swagger-jsdoc и swagger-ui-express: pnpm add -D @types/swagger-jsdoc @types/swagger-ui-express
 
-Команды:
-pnpm watch: компиляция файлов TypeScript из папки "src" в папку "dist" в режиме наблюдения (-w).
-pnpm dev: запуск приложения с помощью nodemon, следя за изменениями в скомпилированном коде в папке "dist".
-pnpm jest: запуск тестов с помощью Jest.
-pnpm format: форматирование кода с помощью Prettier.
-pnpm lint: запуск проверки кода с помощью ESLint и автоматического их исправления.
+Скрипты:
+1. pnpm watch: компиляция файлов TypeScript из папки "src" в папку "dist" в режиме наблюдения (-w).
+2. pnpm dev: запуск приложения с помощью nodemon, следя за изменениями в скомпилированном коде в папке "dist".
+3. pnpm jest: запуск тестов с помощью Jest.
+4. pnpm format: форматирование кода с помощью Prettier.
+5. pnpm lint: запуск проверки кода с помощью ESLint и автоматического их исправления.
+6. pnpm build: компиляция файлов TypeScript из папки "src" в папку "dist", нужно для деплоя на vercel.com.
+7. pnpm start: "node dist/index.js".
 
 Файл "package.json": настройка полей "main" и "scripts".
 Файл "tsconfig.json": ручная настройка.
@@ -101,13 +104,16 @@ Data Transfer Object - это объект, определяющий форму 
 Папка "drivers" - код, связанный с водителями. Здесь хранится DTO для валидации данных и типы, описывающие водителей.
 Папка "testing" - код, связанные с тестированием приложения.
 
-Разворачивание приложения на vercel.com:
+Деплой приложения на vercel.com:
 1. Создать файл "vercel.json".
-2. Залогиниться на vercel.com
-3. Перейти на Dashboard
-4. Выбрать "Add New..." - "Project"
-5. Выбрать "Continue with GitHub"
-6. Импортировать нужный репозиторий
-7. Указать "Build Command" как "yarn vercel-build"
-8. Указать "Output Directory" как "dist"
-9. Указать "Install Command" как "yarn install"
+2. В файл "package.json" добавить скрипты:
+2.1 "build": "tsc".
+2.2 "start": "node dist/index.js".
+3. Залогиниться на vercel.com.
+4. Выбрать "Add New..." - "Project".
+5. Выбрать "Continue with GitHub".
+6. Импортировать нужный репозиторий.
+7. Указать "Application Preset" как "Express".
+8. Указать "Build Command" как "pnpm build".
+9. Указать "Output Directory" как "dist".
+10. Указать "Install Command" как "pnpm install".

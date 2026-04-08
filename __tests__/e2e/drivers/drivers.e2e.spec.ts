@@ -45,7 +45,7 @@ describe('Driver API', () => {
       .expect(HttpStatus.Created);
   });
 
-  /*Описываем тест, проверяющий данных по всем водителями из БД.*/
+  /*Описываем тест, проверяющий получение данных по всем водителями из БД.*/
   it('should return drivers list; GET /api/drivers', async () => {
     await request(app)
       .post('/api/drivers')

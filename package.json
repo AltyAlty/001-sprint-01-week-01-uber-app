@@ -9,7 +9,8 @@
     "jest": "jest -i",
     "lint": "eslint --fix .",
     "format": "prettier --write .",
-    "build": "tsc",
+    "build": "tsc && npm run copy:yml",
+    "copy:yml": "cp -r src/**/*.yml dist/ 2>/dev/null || xcopy /s /y src\\*.yml dist\\ 2>nul",
     "start": "node dist/index.js"
   },
   "keywords": [],

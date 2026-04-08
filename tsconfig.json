@@ -11,6 +11,6 @@
     "skipLibCheck": true,
     "types": ["jest", "node", "express"]
   },
-  "include": ["src/**/*", "__tests__/**/*", "src/**/*.swagger.yml"]
+  "include": ["src/**/*", "__tests__/**/*"]
   // "exclude": ["__tests__", "dist", "node_modules"]
 }

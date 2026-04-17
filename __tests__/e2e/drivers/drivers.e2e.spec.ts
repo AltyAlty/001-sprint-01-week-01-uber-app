@@ -6,7 +6,7 @@ import { DriverInputDto } from '../../../src/drivers/dto/driver.input-dto';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 
 /*Описываем тестовый набор.*/
-describe('Driver API', () => {
+describe('Drivers API', () => {
   /*Создание экземпляра приложения Express.*/
   const app = express();
   /*Настраиваем экземпляр приложения Express при помощи функции "setupApp()".*/
@@ -26,27 +26,20 @@ describe('Driver API', () => {
   };
 
   /*Перед запуском тестов, очищаем БД с данными по водителям.*/
-  beforeAll(async () => {
-    await request(app)
-      .delete('/api/testing/all-data')
-      .expect(HttpStatus.NoContent);
-  });
+  beforeAll(async () => await request(app).delete('/api/testing/all-data').expect(HttpStatus.NoContent));
 
   /*Описываем тест, проверяющий добавление нового водителя в БД.*/
-  it('should create driver; POST /api/drivers', async () => {
+  it('should create a driver; POST /api/drivers', async () => {
     const newDriver: DriverInputDto = {
       ...testDriverData,
       name: 'Feodor',
     };
 
-    await request(app)
-      .post('/api/drivers')
-      .send(newDriver)
-      .expect(HttpStatus.Created);
+    await request(app).post('/api/drivers').send(newDriver).expect(HttpStatus.Created);
   });
 
   /*Описываем тест, проверяющий получение данных по всем водителями из БД.*/
-  it('should return drivers list; GET /api/drivers', async () => {
+  it('should return a list of drivers; GET /api/drivers', async () => {
     await request(app)
       .post('/api/drivers')
       .send({ ...testDriverData, name: 'Another Driver' })
@@ -57,24 +50,19 @@ describe('Driver API', () => {
       .send({ ...testDriverData, name: 'Another Driver2' })
       .expect(HttpStatus.Created);
 
-    const driverListResponse = await request(app)
-      .get('/api/drivers')
-      .expect(HttpStatus.Ok);
-
+    const driverListResponse = await request(app).get('/api/drivers').expect(HttpStatus.Ok);
     expect(driverListResponse.body).toBeInstanceOf(Array);
     expect(driverListResponse.body.length).toBeGreaterThanOrEqual(2);
   });
 
-  /*Описываем тест, проверяющий получение данных по водителю по id из БД.*/
-  it('should return driver by id; GET /api/drivers/:id', async () => {
+  /*Описываем тест, проверяющий получение данных по водителю по ID из БД.*/
+  it('should return a driver by ID; GET /api/drivers/:id', async () => {
     const createResponse = await request(app)
       .post('/api/drivers')
       .send({ ...testDriverData, name: 'Another Driver3' })
       .expect(HttpStatus.Created);
 
-    const getResponse = await request(app)
-      .get(`/api/drivers/${createResponse.body.id}`)
-      .expect(HttpStatus.Ok);
+    const getResponse = await request(app).get(`/api/drivers/${createResponse.body.id}`).expect(HttpStatus.Ok);
 
     expect(getResponse.body).toEqual({
       ...createResponse.body,
@@ -83,8 +71,8 @@ describe('Driver API', () => {
     });
   });
 
-  /*Описываем тест, проверяющий изменение данных по водителю по id в БД.*/
-  it('should update driver; PUT /api/drivers/:id', async () => {
+  /*Описываем тест, проверяющий изменение данных по водителю по ID в БД.*/
+  it('should update a driver by ID; PUT /api/drivers/:id', async () => {
     const createResponse = await request(app)
       .post('/api/drivers')
       .send({ ...testDriverData, name: 'Another Driver4' })
@@ -107,9 +95,7 @@ describe('Driver API', () => {
       .send(driverUpdateData)
       .expect(HttpStatus.NoContent);
 
-    const driverResponse = await request(app).get(
-      `/api/drivers/${createResponse.body.id}`,
-    );
+    const driverResponse = await request(app).get(`/api/drivers/${createResponse.body.id}`);
 
     expect(driverResponse.body).toEqual({
       ...driverUpdateData,
@@ -118,8 +104,8 @@ describe('Driver API', () => {
     });
   });
 
-  /*Описываем тест, проверяющий удаление водителя по id в БД.*/
-  it('DELETE /api/drivers/:id and check after NOT FOUND', async () => {
+  /*Описываем тест, проверяющий удаление водителя по ID в БД.*/
+  it('should delete a driver by ID; DELETE /api/drivers/:id', async () => {
     const {
       body: { id: createdDriverId },
     } = await request(app)
@@ -127,14 +113,8 @@ describe('Driver API', () => {
       .send({ ...testDriverData, name: 'Another Driver5' })
       .expect(HttpStatus.Created);
 
-    await request(app)
-      .delete(`/api/drivers/${createdDriverId}`)
-      .expect(HttpStatus.NoContent);
-
-    const driverResponse = await request(app).get(
-      `/api/drivers/${createdDriverId}`,
-    );
-
+    await request(app).delete(`/api/drivers/${createdDriverId}`).expect(HttpStatus.NoContent);
+    const driverResponse = await request(app).get(`/api/drivers/${createdDriverId}`);
     expect(driverResponse.status).toBe(HttpStatus.NotFound);
   });
 });

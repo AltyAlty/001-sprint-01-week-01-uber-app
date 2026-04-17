@@ -11,18 +11,11 @@ import { ValidationError } from '../types/validationError';
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /*Функция для валидации DTO для входных данных по водителям.*/
-export const vehicleInputDtoValidation = (
-  data: DriverInputDto,
-): ValidationError[] => {
+export const vehicleInputDtoValidation = (data: DriverInputDto): ValidationError[] => {
   const errors: ValidationError[] = [];
 
   /*Валидация поля "name".*/
-  if (
-    !data.name ||
-    typeof data.name !== 'string' ||
-    data.name.trim().length < 2 ||
-    data.name.trim().length > 15
-  ) {
+  if (!data.name || typeof data.name !== 'string' || data.name.trim().length < 2 || data.name.trim().length > 15) {
     errors.push({ field: 'name', message: 'Invalid name' });
   }
 
@@ -107,10 +100,7 @@ export const vehicleInputDtoValidation = (
   } else if (data.vehicleFeatures.length) {
     const existingFeatures = Object.values(VehicleFeature);
 
-    if (
-      data.vehicleFeatures.length > existingFeatures.length ||
-      data.vehicleFeatures.length < 1
-    ) {
+    if (data.vehicleFeatures.length > existingFeatures.length || data.vehicleFeatures.length < 1) {
       errors.push({
         field: 'vehicleFeatures',
         message: 'Invalid vehicleFeatures',

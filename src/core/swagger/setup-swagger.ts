@@ -10,7 +10,7 @@ const swaggerOptions = {
     info: {
       title: 'Uber API',
       version: '1.0.0',
-      description: 'uber API',
+      description: 'Uber API',
     },
   },
 
@@ -25,9 +25,7 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions);
 /*Создаем функцию "setupSwagger()" для инициализации документации Swagger. В данном случае UI собираем удаленно, чтобы
 Swagger работал на vercel.com.*/
 export const setupSwagger = (app: Express) => {
-  app.get('/swagger.json', (_req, res) => {
-    res.json(swaggerSpec);
-  });
+  app.get('/swagger.json', (_req, res) => res.json(swaggerSpec));
 
   app.use(
     '/api',

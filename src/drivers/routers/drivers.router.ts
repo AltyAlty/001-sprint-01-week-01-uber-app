@@ -12,11 +12,9 @@ export const driversRouter = Router({});
 /*Конфигурируем роутер "driversRouter".*/
 driversRouter
   /*GET-запрос для получения данных по всем водителям.*/
-  .get('', (req: Request, res: Response) => {
-    res.status(HttpStatus.Ok).send(db.drivers);
-  })
+  .get('', (req: Request, res: Response) => res.status(HttpStatus.Ok).send(db.drivers))
 
-  /*GET-запрос для поиска водителя по id при помощи URI-параметров. При помощи ":" Express позволяет указывать
+  /*GET-запрос для поиска водителя по ID при помощи URI-параметров. При помощи ":" Express позволяет указывать
   переменные в пути. Такие переменные доступны через объект "req.params".
 
   "Request" из Express используется для типизации параметра "req", а "Response" из Express используется для типизации
@@ -28,31 +26,20 @@ driversRouter
   2. На втором месте в типе идет "ResBody". Относится к параметру "res" внутри запроса, то есть что будет возвращено.
   3. На третьем месте в типе идет "ReqBody". Это то, что приходит в body в запросе.
   4. На четвертом месте в типе идут Query-параметры.*/
-  .get(
-    '/:id',
-    (
-      req: Request<{ id: string }, Driver, {}, {}>,
-      res: Response<Driver | null | unknown>,
-    ) => {
-      /*Ищем водителя в БД. Метод "parseInt()" возвращает целое число на основе параметра.*/
-      const id = parseInt(req.params.id);
-      const driver = db.drivers.find((d) => d.id === id);
+  .get('/:id', (req: Request<{ id: string }, Driver, {}, {}>, res: Response<Driver | null | unknown>) => {
+    /*Ищем водителя в БД. Метод "parseInt()" возвращает целое число на основе параметра.*/
+    const id = parseInt(req.params.id);
+    const driver = db.drivers.find((d) => d.id === id);
 
-      /*Если водитель не был найден, то сообщаем об этом клиенту.*/
-      if (!driver) {
-        res
-          .status(HttpStatus.NotFound)
-          .send(
-            createErrorMessages([{ field: 'id', message: 'Driver not found' }]),
-          );
+    /*Если водитель не был найден, то сообщаем об этом клиенту.*/
+    if (!driver) {
+      res.status(HttpStatus.NotFound).send(createErrorMessages([{ field: 'id', message: 'Driver was not found' }]));
+      return;
+    }
 
-        return;
-      }
-
-      /*Если водитель был найден, то сообщаем об этом клиенту.*/
-      res.status(HttpStatus.Ok).send(driver);
-    },
-  )
+    /*Если водитель был найден, то сообщаем об этом клиенту.*/
+    res.status(HttpStatus.Ok).send(driver);
+  })
 
   /*POST-запрос для добавления нового водителя.*/
   .post('', (req: Request<{}, {}, DriverInputDto>, res: Response) => {
@@ -86,52 +73,42 @@ driversRouter
     res.status(HttpStatus.Created).send(newDriver);
   })
 
-  /*PUT-запрос для изменения данных водителя по id при помощи URI-параметров.*/
-  .put(
-    '/:id',
-    (req: Request<{ id: string }, {}, Driver, {}>, res: Response) => {
-      /*Ищем водителя в БД.*/
-      const id = parseInt(req.params.id);
-      const index = db.drivers.findIndex((v) => v.id === id);
+  /*PUT-запрос для изменения данных водителя по ID при помощи URI-параметров.*/
+  .put('/:id', (req: Request<{ id: string }, {}, Driver, {}>, res: Response) => {
+    /*Ищем водителя в БД.*/
+    const id = parseInt(req.params.id);
+    const index = db.drivers.findIndex((v) => v.id === id);
 
-      /*Если водитель не был найден, то сообщаем об этом клиенту.*/
-      if (index === -1) {
-        res
-          .status(HttpStatus.NotFound)
-          .send(
-            createErrorMessages([
-              { field: 'id', message: 'Vehicle not found' },
-            ]),
-          );
+    /*Если водитель не был найден, то сообщаем об этом клиенту.*/
+    if (index === -1) {
+      res.status(HttpStatus.NotFound).send(createErrorMessages([{ field: 'id', message: 'Vehicle was not found' }]));
+      return;
+    }
 
-        return;
-      }
+    /*Если водитель был найден, то проводим валидацию DTO для входных данных по водителю, которого нужно изменить.*/
+    const errors = vehicleInputDtoValidation(req.body);
 
-      /*Если водитель был найден, то проводим валидацию DTO для входных данных по водителю, которого нужно изменить.*/
-      const errors = vehicleInputDtoValidation(req.body);
+    /*Если были ошибки валидации, то сообщаем об этом клиенту.*/
+    if (errors.length > 0) {
+      res.status(HttpStatus.BadRequest).send(createErrorMessages(errors));
+      return;
+    }
 
-      /*Если были ошибки валидации, то сообщаем об этом клиенту.*/
-      if (errors.length > 0) {
-        res.status(HttpStatus.BadRequest).send(createErrorMessages(errors));
-        return;
-      }
+    /*Если ошибок валидации не было, то обновляем данные водителя в БД и сообщаем об этом клиенту.*/
+    const driver = db.drivers[index];
+    driver.name = req.body.name;
+    driver.phoneNumber = req.body.phoneNumber;
+    driver.email = req.body.email;
+    driver.vehicleMake = req.body.vehicleMake;
+    driver.vehicleModel = req.body.vehicleModel;
+    driver.vehicleYear = req.body.vehicleYear;
+    driver.vehicleLicensePlate = req.body.vehicleLicensePlate;
+    driver.vehicleDescription = req.body.vehicleDescription;
+    driver.vehicleFeatures = req.body.vehicleFeatures;
+    res.sendStatus(HttpStatus.NoContent);
+  })
 
-      /*Если ошибок валидации не было, то обновляем данные водителя в БД и сообщаем об этом клиенту.*/
-      const driver = db.drivers[index];
-      driver.name = req.body.name;
-      driver.phoneNumber = req.body.phoneNumber;
-      driver.email = req.body.email;
-      driver.vehicleMake = req.body.vehicleMake;
-      driver.vehicleModel = req.body.vehicleModel;
-      driver.vehicleYear = req.body.vehicleYear;
-      driver.vehicleLicensePlate = req.body.vehicleLicensePlate;
-      driver.vehicleDescription = req.body.vehicleDescription;
-      driver.vehicleFeatures = req.body.vehicleFeatures;
-      res.sendStatus(HttpStatus.NoContent);
-    },
-  )
-
-  /*DELETE-запрос для удаления водителя по id при помощи URI-параметров.*/
+  /*DELETE-запрос для удаления водителя по ID при помощи URI-параметров.*/
   .delete('/:id', (req: Request<{ id: string }, {}, {}, {}>, res: Response) => {
     /*Ищем водителя в БД.*/
     const id = parseInt(req.params.id);
@@ -139,11 +116,7 @@ driversRouter
 
     /*Если водитель не был найден, то сообщаем об этом клиенту.*/
     if (index === -1) {
-      res
-        .status(HttpStatus.NotFound)
-        .send(
-          createErrorMessages([{ field: 'id', message: 'Vehicle not found' }]),
-        );
+      res.status(HttpStatus.NotFound).send(createErrorMessages([{ field: 'id', message: 'Vehicle was not found' }]));
       return;
     }
 

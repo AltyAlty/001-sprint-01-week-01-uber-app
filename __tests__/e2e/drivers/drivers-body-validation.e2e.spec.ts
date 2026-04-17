@@ -6,7 +6,7 @@ import { DriverInputDto } from '../../../src/drivers/dto/driver.input-dto';
 import { HttpStatus } from '../../../src/core/types/http-statuses';
 
 /*Описываем тестовый набор.*/
-describe('Driver API body validation check', () => {
+describe('Drivers API body validation check', () => {
   const app = express();
   setupApp(app);
 
@@ -22,14 +22,10 @@ describe('Driver API body validation check', () => {
     vehicleFeatures: [VehicleFeature.ChildSeat],
   };
 
-  beforeAll(async () => {
-    await request(app)
-      .delete('/api/testing/all-data')
-      .expect(HttpStatus.NoContent);
-  });
+  beforeAll(async () => await request(app).delete('/api/testing/all-data').expect(HttpStatus.NoContent));
 
   /*Описываем тест, проверяющий отказ в добавлении водителя с непрошедшими валидацию данными.*/
-  it('should not create driver when incorrect body passed; POST /api/drivers', async () => {
+  it('should not create a driver when incorrect body passed; POST /api/drivers', async () => {
     const invalidDataSet1 = await request(app)
       .post('/api/drivers')
       .send({
@@ -65,13 +61,12 @@ describe('Driver API body validation check', () => {
       .expect(HttpStatus.BadRequest);
 
     expect(invalidDataSet3.body.errorMessages).toHaveLength(1);
-
     const driverListResponse = await request(app).get('/api/drivers');
     expect(driverListResponse.body).toHaveLength(0);
   });
 
   /*Описываем тест, проверяющий отказ в изменении данных водителя с непрошедшими валидацию данными.*/
-  it('should not update driver when incorrect data passed; PUT /api/drivers/:id', async () => {
+  it('should not update a driver when incorrect body passed; PUT /api/drivers/:id', async () => {
     const {
       body: { id: createdDriverId },
     } = await request(app)
@@ -114,10 +109,7 @@ describe('Driver API body validation check', () => {
       .expect(HttpStatus.BadRequest);
 
     expect(invalidDataSet3.body.errorMessages).toHaveLength(1);
-
-    const driverResponse = await request(app).get(
-      `/api/drivers/${createdDriverId}`,
-    );
+    const driverResponse = await request(app).get(`/api/drivers/${createdDriverId}`);
 
     expect(driverResponse.body).toEqual({
       ...correctTestDriverData,
@@ -127,7 +119,7 @@ describe('Driver API body validation check', () => {
   });
 
   /*Описываем тест, проверяющий отказ в изменении данных водителя с непрошедшими валидацию данными о фичах машины.*/
-  it('should not update driver when incorrect features passed; PUT /api/drivers/:id', async () => {
+  it('should not update a driver when incorrect features passed; PUT /api/drivers/:id', async () => {
     const {
       body: { id: createdDriverId },
     } = await request(app)
@@ -139,17 +131,11 @@ describe('Driver API body validation check', () => {
       .put(`/api/drivers/${createdDriverId}`)
       .send({
         ...correctTestDriverData,
-        vehicleFeatures: [
-          VehicleFeature.ChildSeat,
-          'invalid-feature',
-          VehicleFeature.WiFi,
-        ],
+        vehicleFeatures: [VehicleFeature.ChildSeat, 'invalid-feature', VehicleFeature.WiFi],
       })
       .expect(HttpStatus.BadRequest);
 
-    const driverResponse = await request(app).get(
-      `/api/drivers/${createdDriverId}`,
-    );
+    const driverResponse = await request(app).get(`/api/drivers/${createdDriverId}`);
 
     expect(driverResponse.body).toEqual({
       ...correctTestDriverData,

@@ -1,6 +1,6 @@
 import { Driver, VehicleFeature } from '../drivers/types/driver';
 
-/*Моковая БД с данными по водителям.*/
+/*Моковая БД.*/
 export const db = {
   drivers: <Driver[]>[
     {

@@ -11,7 +11,7 @@ import { ValidationError } from '../types/validationError';
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /*Функция для валидации DTO для входных данных по водителям.*/
-export const vehicleInputDtoValidation = (data: DriverInputDto): ValidationError[] => {
+export const driverInputDtoValidation = (data: DriverInputDto): ValidationError[] => {
   const errors: ValidationError[] = [];
 
   /*Валидация поля "name".*/

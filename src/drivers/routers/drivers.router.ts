@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
 import { db } from '../../db/in-memory.db';
-import { vehicleInputDtoValidation } from '../validation/vehicleInputDtoValidation';
+import { driverInputDtoValidation } from '../validation/driverInputDtoValidation';
 import { createErrorMessages } from '../../core/utils/error.utils';
 import { Driver } from '../types/driver';
 import { DriverInputDto } from '../dto/driver.input-dto';
@@ -44,7 +44,7 @@ driversRouter
   /*POST-запрос для добавления нового водителя.*/
   .post('', (req: Request<{}, {}, DriverInputDto>, res: Response) => {
     /*Проводим валидацию DTO для входных данных по новому водителю.*/
-    const errors = vehicleInputDtoValidation(req.body);
+    const errors = driverInputDtoValidation(req.body);
 
     /*Если были ошибки валидации, то сообщаем об этом клиенту.*/
     if (errors.length > 0) {
@@ -86,7 +86,7 @@ driversRouter
     }
 
     /*Если водитель был найден, то проводим валидацию DTO для входных данных по водителю, которого нужно изменить.*/
-    const errors = vehicleInputDtoValidation(req.body);
+    const errors = driverInputDtoValidation(req.body);
 
     /*Если были ошибки валидации, то сообщаем об этом клиенту.*/
     if (errors.length > 0) {
